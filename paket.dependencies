@@ -10,6 +10,9 @@ nuget MediatR
 
 nuget Newtonsoft.Json
 
+nuget Optional
+nuget Microsoft.AspNetCore.Identity
+nuget Microsoft.AspNetCore.Identity.EntityFrameworkCore
 nuget MediatR.Extensions.Microsoft.DependencyInjection
 
 nuget Swashbuckle.AspNetCore
@@ -36,3 +39,4 @@ nuget Npgsql.EntityFrameworkCore.PostgreSQL
 
 nuget Npgsql.EntityFrameworkCore.PostgreSQL.Design
 
+nuget System.IdentityModel.Tokens.Jwt
