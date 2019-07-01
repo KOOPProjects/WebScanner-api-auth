@@ -1,0 +1,45 @@
+source https://www.nuget.org/api/v2
+
+framework: netcoreapp2.2
+
+nuget Microsoft.AspNetCore.App
+
+nuget Microsoft.AspNetCore.Mvc
+
+nuget MediatR
+
+nuget Refit
+nuget Refit.HttpClientFactory
+nuget Newtonsoft.Json
+
+nuget Optional
+nuget Microsoft.AspNetCore.Identity
+nuget Microsoft.AspNetCore.Identity.EntityFrameworkCore
+nuget MediatR.Extensions.Microsoft.DependencyInjection
+
+nuget Swashbuckle.AspNetCore
+
+nuget Serilog.AspNetCore
+
+nuget Serilog.Settings.Configuration
+
+nuget Serilog.Sinks.Console
+
+nuget Serilog.Sinks.RollingFile
+
+nuget Microsoft.EntityFrameworkCore
+
+nuget AutoMapper
+
+nuget AutoMapper.Extensions.Microsoft.DependencyInjection
+
+nuget Microsoft.EntityFrameworkCore.Tools.DotNet
+
+nuget Microsoft.EntityFrameworkCore.Design
+
+nuget Npgsql.EntityFrameworkCore.PostgreSQL
+
+nuget Npgsql.EntityFrameworkCore.PostgreSQL.Design
+
+nuget System.IdentityModel.Tokens.Jwt
+nuget FluentValidation
