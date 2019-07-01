@@ -21,5 +21,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 COPY nginx.conf.sigil .
-ENTRYPOINT ["dotnet", "WBT.Identity.Api.dll"]
+ENTRYPOINT ["dotnet", "WebScanner-api-auth.App.dll"]
 
