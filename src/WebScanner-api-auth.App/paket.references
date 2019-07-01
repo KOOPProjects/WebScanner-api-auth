@@ -7,10 +7,13 @@ Microsoft.AspNetCore.App
 Serilog.Settings.Configuration
 Serilog.Sinks.Console
 Serilog.Sinks.RollingFile
+FluentValidation
 Microsoft.EntityFrameworkCore.Design
 Microsoft.EntityFrameworkCore
 AutoMapper
 AutoMapper.Extensions.Microsoft.DependencyInjection
 Npgsql.EntityFrameworkCore.PostgreSQL
 Npgsql.EntityFrameworkCore.PostgreSQL.Design
+Refit.HttpClientFactory
+Refit
 

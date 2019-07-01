@@ -55,8 +55,8 @@ namespace WebScanner_api_auth
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            app.UseMvc();
             app.UseAuthentication();
+            app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -8,6 +8,8 @@ nuget Microsoft.AspNetCore.Mvc
 
 nuget MediatR
 
+nuget Refit
+nuget Refit.HttpClientFactory
 nuget Newtonsoft.Json
 
 nuget Optional
@@ -40,3 +42,4 @@ nuget Npgsql.EntityFrameworkCore.PostgreSQL
 nuget Npgsql.EntityFrameworkCore.PostgreSQL.Design
 
 nuget System.IdentityModel.Tokens.Jwt
+nuget FluentValidation

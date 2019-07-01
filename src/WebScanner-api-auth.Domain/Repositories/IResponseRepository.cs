@@ -9,7 +9,7 @@ namespace WebScanner_api_auth.Domain.Repositories
 {
     public interface IResponseRepository
     {
-        Task<Option<IEnumerable<Response>>> GetResponsesByOrderId(int orderId, string orderType);
-        Task<Option<IEnumerable<Response>>> GetResponsesFilteredByDate(int orderId, string orderType, DateTime dateAfter, DateTime dateBefore);
+        Task<Option<IEnumerable<Response>>> GetOrderResponses(int orderId, string orderType);
+        Task<Option<IEnumerable<Response>>> GetOrderResponsesFiltered(int orderId, string orderType, DateTime? dateAfter, DateTime? dateBefore, string content);
     }
 }

@@ -16,6 +16,8 @@ namespace WebScanner_api_auth.Infrastructure.DataContexts
 
         public DbSet<OrderResponse> Responses { get; set; }
         public DbSet<UserOrder> UserOrders { get; set; }
+        public DbSet<HtmlOrder> HtmlOrders { get; set; }
+        public DbSet<ServerOrder> ServerOrders { get; set; }
     }
     
 }

@@ -1,6 +1,7 @@
 MediatR
 MediatR.Extensions.Microsoft.DependencyInjection
 Swashbuckle.AspNetCore
+Refit
 Microsoft.AspNetCore.Identity
 Serilog.AspNetCore
 Optional

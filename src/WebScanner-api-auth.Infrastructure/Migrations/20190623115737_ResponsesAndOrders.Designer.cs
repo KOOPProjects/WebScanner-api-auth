@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebScanner_api_auth.Infrastructure.DataContexts;
@@ -9,9 +10,10 @@ using WebScanner_api_auth.Infrastructure.DataContexts;
 namespace WebScanner_api_auth.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190623115737_ResponsesAndOrders")]
+    partial class ResponsesAndOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,55 +128,7 @@ namespace WebScanner_api_auth.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebScanner_api_auth.Infrastructure.Models.HtmlOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Frequency");
-
-                    b.Property<string>("SubjectOfQuestion");
-
-                    b.Property<string>("TargetAddress");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HtmlOrders");
-                });
-
-            modelBuilder.Entity("WebScanner_api_auth.Infrastructure.Models.OrderResponse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int>("OrderId");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Responses");
-                });
-
-            modelBuilder.Entity("WebScanner_api_auth.Infrastructure.Models.ServerOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Frequency");
-
-                    b.Property<string>("Question");
-
-                    b.Property<string>("TargetAddress");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ServerOrders");
-                });
+           
 
             modelBuilder.Entity("WebScanner_api_auth.Infrastructure.Models.UserOrder", b =>
                 {
@@ -185,7 +139,7 @@ namespace WebScanner_api_auth.Infrastructure.Migrations
 
                     b.Property<string>("Type");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 

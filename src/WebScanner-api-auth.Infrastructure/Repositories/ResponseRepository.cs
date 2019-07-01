@@ -21,20 +21,49 @@ namespace WebScanner_api_auth.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Option<IEnumerable<Response>>> GetResponsesByOrderId(int orderId, string orderType)
+        public async Task<Option<IEnumerable<Response>>> GetOrderResponses(int orderId, string orderType)
         {
             var result = await _context.Responses.Where(x => x.OrderId == orderId
                 && x.Type == orderType).ToListAsync();
-            return Option.Some<IEnumerable<Response>>(result.AsEnumerable().MapOrderResponsestoResponses());
+            if(result == null || result.Count() == 0)
+            {
+                return Option.None<IEnumerable<Response>>();
+            }
+            else
+            {
+                return Option.Some<IEnumerable<Response>>(result.AsEnumerable().MapOrderResponsestoResponses());
+            }
         }
 
-        public async Task<Option<IEnumerable<Response>>> GetResponsesFilteredByDate(int orderId, string orderType, DateTime dateAfter, DateTime dateBefore)
+        public async Task<Option<IEnumerable<Response>>> GetOrderResponsesFiltered(
+            int orderId,
+            string orderType,
+            DateTime? dateAfter,
+            DateTime? dateBefore,
+            string content)
         {
-            var result = await _context.Responses.Where(x => x.OrderId == orderId
-            && x.Type == orderType
-            && x.Date > dateAfter
-            && x.Date < dateBefore).ToListAsync();
-            return Option.Some<IEnumerable<Response>>(result.AsEnumerable().MapOrderResponsestoResponses());
+            var responses = _context.Responses.Where(x => x.OrderId == orderId && x.Type == orderType);
+            if(dateAfter != null)
+            {
+                responses = responses.Where(x => x.Date > dateAfter);
+            }
+            if(dateBefore != null)
+            {
+                responses = responses.Where(x => x.Date < dateBefore);
+            }
+            if (!string.IsNullOrEmpty(content))
+            {
+                responses = responses.Where(x => x.Content.Contains(content));
+            }
+            var result = await responses.ToListAsync();
+            if (result == null || result.Count() == 0)
+            {
+                return Option.None<IEnumerable<Response>>();
+            }
+            else
+            {
+                return Option.Some<IEnumerable<Response>>(result.AsEnumerable().MapOrderResponsestoResponses());
+            }
         }
     }
 }

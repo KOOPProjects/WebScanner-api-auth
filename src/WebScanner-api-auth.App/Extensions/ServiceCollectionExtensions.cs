@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Refit;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WebScanner_api_auth.Domain.Repositories;
@@ -17,6 +19,8 @@ using WebScanner_api_auth.Infrastructure.Dtos.Settings;
 using WebScanner_api_auth.Infrastructure.Handlers;
 using WebScanner_api_auth.Infrastructure.Models;
 using WebScanner_api_auth.Infrastructure.Repositories;
+using WebScanner_api_auth.Infrastructure.Tokens;
+using WebScanner_api_auth.Validators;
 
 namespace WebScanner_api_auth.Extensions
 {
@@ -39,7 +43,7 @@ namespace WebScanner_api_auth.Extensions
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = "WBT.Identity Application Interface",
+                    Title = "WebScanner Application Interface",
                     Description = "Api for providing authentication features",
                     TermsOfService = "None",
                     Contact = new Contact() { Name = "Oskar Przybylski", Email = "przybylski.oskar@gmail.com", Url = "o-and-m.mattszczesny.com" }
@@ -75,16 +79,15 @@ namespace WebScanner_api_auth.Extensions
             {
                 x.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = context =>
+                    OnTokenValidated = async context =>
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<UserManager<WebScannerUser>>();
-                        var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetUserAsync(context.Principal);
+                        var userId = context.Principal.Identity.Name;
+                        var user = await userService.Users.FirstOrDefaultAsync(y => y.Id == userId);
                         if (user == null)
                         {
                             context.Fail("Unauthorized");
                         }
-                        return Task.CompletedTask;
                     }
                 };
                 x.RequireHttpsMetadata = false;
@@ -106,11 +109,24 @@ namespace WebScanner_api_auth.Extensions
             services.AddMediatR(typeof(Startup));
             services.AddMediatR(typeof(LoginCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(RegisterCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetOrderResponsesCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetOrderResponsesFilteredCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(AddHtmlOrderCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(AddServerOrderCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetServerOrdersCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetHtmlOrdersCommandHandler).GetTypeInfo().Assembly);
         }
 
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IResponseRepository, ResponseRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<GetOrderResponsesFilteredRequestValidator>();
+            services.AddTransient<LoginRequestValidator>();
+            services.AddTransient<RegisterRequestValidator>();
+            services.AddRefitClient<WebScannerRepository>()
+        .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://webscanner.ptrd.pl"));
         }
 
     }
