@@ -66,5 +66,49 @@ namespace WebScanner_api_auth.Controllers
                 some: x => Ok(x),
                 () => BadRequest());
         }
+
+        [Authorize]
+        [HttpDelete("Html")]
+        public async Task<IActionResult> DeleteHtmlOrdeR([FromQuery] int orderId)
+        {
+            var userId = TokenDecryptor.DecryptUserId(this.User.Identity as ClaimsIdentity);
+            var result = await _bus.Send(new DeleteHtmlOrderCommand(userId, orderId));
+            return result.Match<IActionResult>(
+                some: x => Ok(x),
+                none: () => BadRequest());
+        }
+
+        [Authorize]
+        [HttpDelete("Server")]
+        public async Task<IActionResult> DeleteServerOrdeR([FromQuery] int orderId)
+        {
+            var userId = TokenDecryptor.DecryptUserId(this.User.Identity as ClaimsIdentity);
+            var result = await _bus.Send(new DeleteServerOrderCommand(userId, orderId));
+            return result.Match<IActionResult>(
+                some: x => Ok(x),
+                none: () => BadRequest());
+        }
+
+        [Authorize]
+        [HttpGet("Html/Order")]
+        public async Task<IActionResult> GetHtmlOrder([FromQuery] int id)
+        {
+            var userId = TokenDecryptor.DecryptUserId(this.User.Identity as ClaimsIdentity);
+            var result = await _bus.Send(new GetHtmlOrderCommand(userId, id));
+            return result.Match<IActionResult>(
+                some: x => Ok(x),
+                none: () => BadRequest());
+        }
+
+        [Authorize]
+        [HttpGet("Server/Order")]
+        public async Task<IActionResult> GetServerOrder([FromQuery] int id)
+        {
+            var userId = TokenDecryptor.DecryptUserId(this.User.Identity as ClaimsIdentity);
+            var result = await _bus.Send(new GetServerOrderCommand(userId, id));
+            return result.Match<IActionResult>(
+                some: x => Ok(x),
+                none: () => BadRequest());
+        }
     }
 }

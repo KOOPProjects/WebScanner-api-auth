@@ -14,5 +14,9 @@ namespace WebScanner_api_auth.Domain.Repositories
 
         Task<Option<HOrder>> AddHtmlOrder(HOrder order, string userId);
         Task<Option<SOrder>> AddServerOrder(SOrder order, string userId);
+        Task<Option<HOrder>> GetHtmlOrder(string userId, int orderId);
+        Task<Option<SOrder>> GetServerOrder(string userId, int orderId);
+        Task<Option<int>> DeleteServerOrder(string userId, int orderId);
+        Task<Option<int>> DeleteHtmlOrder(string userId, int orderId);
     }
 }
