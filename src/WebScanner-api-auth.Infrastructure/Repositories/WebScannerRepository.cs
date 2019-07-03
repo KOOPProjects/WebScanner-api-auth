@@ -31,6 +31,5 @@ namespace WebScanner_api_auth.Infrastructure.Repositories
 
         [Delete("/api/serverorders")]
         Task<int> DeleteServerOrder([FromQuery] int orderId);
-
     }
 }
