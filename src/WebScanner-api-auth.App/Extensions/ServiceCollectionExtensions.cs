@@ -115,6 +115,8 @@ namespace WebScanner_api_auth.Extensions
             services.AddMediatR(typeof(AddServerOrderCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetServerOrdersCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetHtmlOrdersCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetHtmlOrderCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetServerOrderCommandHandler).GetTypeInfo().Assembly);
         }
 
         public static void AddRepositories(this IServiceCollection services)

@@ -57,6 +57,72 @@ namespace WebScanner_api_auth.Infrastructure.Repositories
             }
         }
 
+        public async Task<Option<int>> DeleteHtmlOrder(string userId, int orderId)
+        {
+            var userOrder = await _context.UserOrders.FirstOrDefaultAsync(x => x.OrderId == orderId && x.UserId == userId && x.Type == "Html");
+            if (userOrder != null)
+            {
+                try
+                {
+                    _context.UserOrders.Remove(userOrder);
+                    var id = await _webScannerRepository.DeleteHtmlOrder(orderId);
+                    await _context.SaveChangesAsync();
+                    return Option.Some<int>(id);
+                }
+                catch (Exception e)
+                {
+                    return Option.None<int>();
+                }
+            }
+            else
+            {
+                return Option.None<int>();
+            }
+        }
+
+        public async Task<Option<int>> DeleteServerOrder(string userId, int orderId)
+        {
+            var userOrder = await _context.UserOrders.FirstOrDefaultAsync(x => x.OrderId == orderId && x.UserId == userId && x.Type == "Server");
+            if (userOrder != null)
+            {
+                try
+                {
+                    _context.UserOrders.Remove(userOrder);
+                    var id = await _webScannerRepository.DeleteServerOrder(orderId);
+                    await _context.SaveChangesAsync();
+                    return Option.Some<int>(id);
+                }
+                catch (Exception e)
+                {
+                    return Option.None<int>();
+                }
+            }
+            else
+            {
+                return Option.None<int>();
+            }
+        }
+
+        public async Task<Option<HOrder>> GetHtmlOrder(string userId, int orderId)
+        {
+            if (await _context.UserOrders.FirstOrDefaultAsync(x => x.OrderId == orderId && x.UserId == userId && x.Type == "Html") != null)
+            {
+                var order = await _webScannerRepository.GetHtmlOrder(orderId);
+                if (order != null)
+                {
+                    return Option.Some<HOrder>(new HOrder(orderId, order.Frequency, order.TargetAddress, order.SubjectOfQuestion));
+                }
+                else
+                {
+                    return Option.None<HOrder>();
+                }
+            }
+            else
+            {
+                return Option.None<HOrder>();
+            }
+        }
+
         public async Task<Option<IEnumerable<HOrder>>> GetHtmlOrderForUser(string userId)
         {
             var userOrdersIds = _context.UserOrders.Where(x => x.Type == "Html" && x.UserId == userId).Select(x => x.OrderId);
@@ -69,7 +135,26 @@ namespace WebScanner_api_auth.Infrastructure.Repositories
             {
                 return Option.None<IEnumerable<HOrder>>();
             }
-            
+        }
+
+        public async Task<Option<SOrder>> GetServerOrder(string userId, int orderId)
+        {
+            if (await _context.UserOrders.FirstOrDefaultAsync(x => x.OrderId == orderId && x.UserId == userId && x.Type == "Server") != null)
+            {
+                var order = await _webScannerRepository.GetServerOrder(orderId);
+                if(order != null)
+                {
+                    return Option.Some<SOrder>(new SOrder(orderId, order.Frequency, order.TargetAddress, order.Question));
+                }
+                else
+                {
+                    return Option.None<SOrder>();
+                }
+            }
+            else
+            {
+                return Option.None<SOrder>();
+            }
         }
 
         public async Task<Option<IEnumerable<SOrder>>> GetServerOrderForUser(string userId)
