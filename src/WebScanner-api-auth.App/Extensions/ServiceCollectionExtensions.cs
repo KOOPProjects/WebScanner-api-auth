@@ -131,6 +131,15 @@ namespace WebScanner_api_auth.Extensions
         .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://webscanner.ptrd.pl"));
         }
 
+        public static void AddCorsConfiguration(this IServiceCollection services)
+        {
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+               builder =>
+               {
+                   builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+               }));
+        }
+
     }
 }
 

@@ -37,6 +37,7 @@ namespace WebScanner_api_auth
             services.AddAuthenticationServices(Configuration);
             services.AddMediator();
             services.AddRepositories();
+            services.AddCorsConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +57,7 @@ namespace WebScanner_api_auth
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
             app.UseAuthentication();
+            app.UseCors("AllowAllOrigins");
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
